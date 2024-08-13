@@ -1,0 +1,62 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: run-unit-tests
+spec:
+  params:
+    - name: BONFIRE_IMAGE
+      type: string
+      description: The container Bonfire image to use for the tekton tasks
+      default: quay.io/redhat-user-workloads/hcc-devprod-tenant/hcc-cicd-tools/cicd-tools:834176766e3f911ffa24bfacff59dd15126e4b3a
+    - name: EPHEMERAL_ENV_PROVIDER_SECRET
+      type: string
+      default: ephemeral-env-provider
+    - name: NS
+      type: string
+      description: Namespace name to deploy the application to
+    - name: NS_REQUESTER
+      type: string
+      description: The name of the person/pipeline that requested the namespace
+    - name: COMPONENT_NAME
+      type: string
+      description: name of app-sre "resourceTemplate" in deploy.yaml for this component
+    - name: BONFIRE_COMPONENT_NAME
+      type: string
+      description: name of the app-sre component name
+      default: ""
+    - name: GITHUB_UNIT_TEST
+      type: string
+      description: github URL pointing to pr_check.sh / unit_test.sh 
+
+  steps:
+    - name: deploy-unit-tests
+      image: "$(params.BONFIRE_IMAGE)"
+      env:
+        - name: OC_LOGIN_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: $(params.EPHEMERAL_ENV_PROVIDER_SECRET)
+              key: token
+        - name: OC_LOGIN_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: $(params.EPHEMERAL_ENV_PROVIDER_SECRET)
+              key: url
+        - name: COMPONENT_NAME
+          value: $(params.COMPONENT_NAME)
+        - name: BONFIRE_COMPONENT_NAME
+          value: $(params.BONFIRE_COMPONENT_NAME)
+        - name: BONFIRE_BOT
+          value: "true"
+        - name: GITHUB_UNIT_TEST
+          value: $(params.GITHUB_UNIT_TEST)
+
+      script: |
+        #!/bin/bash
+        set -ex
+
+        echo "Connecting to the ephemeral namespace cluster"
+        login.sh
+
+        echo "Deploying the unit test"
+        source $GITHUB_UNIT_TEST
