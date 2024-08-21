@@ -167,4 +167,4 @@ spec:
           - name: revision
             value: "$(params.REVISION)"
           - name: pathInRepo
-            value: tasks/unit-test-run.yaml
+            value: tasks/unit-test.yaml
