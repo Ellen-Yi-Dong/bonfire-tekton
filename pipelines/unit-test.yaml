@@ -9,11 +9,11 @@ spec:
     - name: URL
       type: string
       description: URL of the Git repository use for fetching the tasks
-      default: https://github.com/gbenhaim/tekton-insights
+      default: https://github.com/Ellen-Yi-Dong/bonfire-tekton
     - name: REVISION
       type: string
       description: Git commit revision to use for fetching the tasks
-      default: main
+      default: integrate_unit_tests
     - name: BONFIRE_IMAGE
       type: string
       description: The container Bonfire image to use for the tekton tasks
