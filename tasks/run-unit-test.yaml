@@ -25,7 +25,7 @@ spec:
       description: name of the app-sre component name
       default: ""
   steps:
-    - name: deploy-iqe-cji
+    - name: run-unit-tests
       image: "$(params.BONFIRE_IMAGE)"
       env:
         - name: OC_LOGIN_TOKEN
