@@ -1,0 +1,60 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: run-iqe-cji
+spec:
+  params:
+    - name: BONFIRE_IMAGE
+      type: string
+      description: The container Bonfire image to use for the tekton tasks
+      default: quay.io/redhat-user-workloads/hcc-devprod-tenant/hcc-cicd-tools/cicd-tools:834176766e3f911ffa24bfacff59dd15126e4b3a
+    - name: EPHEMERAL_ENV_PROVIDER_SECRET
+      type: string
+      default: ephemeral-env-provider
+    - name: NS
+      type: string
+      description: Namespace name to deploy the application to
+    - name: NS_REQUESTER
+      type: string
+      description: The name of the person/pipeline that requested the namespace
+    - name: COMPONENT_NAME
+      type: string
+      description: name of app-sre "resourceTemplate" in deploy.yaml for this component
+    - name: BONFIRE_COMPONENT_NAME
+      type: string
+      description: name of the app-sre component name
+      default: ""
+    - name: IQE_PLUGINS
+      type: string
+      description: name of the IQE plugin for this app.
+  steps:
+    - name: deploy-iqe-cji
+      image: "$(params.BONFIRE_IMAGE)"
+      env:
+        - name: OC_LOGIN_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: $(params.EPHEMERAL_ENV_PROVIDER_SECRET)
+              key: token
+        - name: OC_LOGIN_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: $(params.EPHEMERAL_ENV_PROVIDER_SECRET)
+              key: url
+        - name: COMPONENT_NAME
+          value: $(params.COMPONENT_NAME)
+        - name: BONFIRE_COMPONENT_NAME
+          value: $(params.BONFIRE_COMPONENT_NAME)
+        - name: IQE_PLUGINS
+          value: $(params.IQE_PLUGINS)
+        - name: BONFIRE_BOT
+          value: "true"
+      script: |
+        #!/bin/bash
+        set -ex
+
+        echo "Connecting to the ephemeral namespace cluster"
+        login.sh
+
+        echo "Running the unit tests"
+        pr_check.sh "$(params.NS)" "$(params.NS_REQUESTER)"
