@@ -21,6 +21,9 @@ spec:
       type: string
       description: name of the app-sre component name
       default: ""
+    - name: PATH_UNIT_TEST
+      type: string
+      description: url path to the unit test
   steps:
     - name: run-unit-tests
       image: "$(params.BONFIRE_IMAGE)"
@@ -37,8 +40,8 @@ spec:
               key: url
         - name: BONFIRE_COMPONENT_NAME
           value: $(params.BONFIRE_COMPONENT_NAME)
-        - name: BONFIRE_BOT
-          value: "true"
+        - name: PATH_UNIT_TEST
+          value: $(params.PATH_UNIT_TEST)
       script: |
         #!/bin/bash
         set -ex
@@ -47,4 +50,4 @@ spec:
         login.sh
 
         echo "Running the unit tests"
-        https://github.com/RedHatInsights/uhc-auth-proxy/blob/master/pr_check.sh "$(params.NS)" "$(params.NS_REQUESTER)"
+        PATH_UNIT_TEST "$(params.NS)" "$(params.NS_REQUESTER)"

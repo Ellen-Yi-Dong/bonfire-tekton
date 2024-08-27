@@ -61,6 +61,9 @@ spec:
     - name: COMPONENT_NAME
       type: string
       description: name of app-sre "resourceTemplate" in deploy.yaml for this component
+    - name: PATH_UNIT_TEST
+      type: string
+      description: url path to the unit test
 
   results:
     - name: ARTIFACTS_URL
@@ -157,6 +160,8 @@ spec:
           value: "$(params.COMPONENTS)"
         - name: COMPONENTS_W_RESOURCES
           value: "$(params.COMPONENTS_W_RESOURCES)"
+        - name: PATH_UNIT_TEST
+          value: "$(params.PATH_UNIT_TEST)"
       runAfter:
         - deploy-application
       taskRef:
