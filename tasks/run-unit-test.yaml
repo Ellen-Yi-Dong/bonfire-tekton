@@ -47,4 +47,4 @@ spec:
         login.sh
 
         echo "Running the unit tests"
-        https://github.com/RedHatInsights/uhc-auth-proxy/pr_check.sh "$(params.NS)" "$(params.NS_REQUESTER)"
+        https://github.com/RedHatInsights/uhc-auth-proxy/blob/master/pr_check.sh "$(params.NS)" "$(params.NS_REQUESTER)"
