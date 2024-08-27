@@ -50,4 +50,4 @@ spec:
         login.sh
 
         echo "Running the unit tests"
-        PATH_UNIT_TEST "$(params.NS)" "$(params.NS_REQUESTER)"
+        "$(params.PATH_UNIT_TEST)" "$(params.NS)" "$(params.NS_REQUESTER)"
