@@ -24,9 +24,6 @@ spec:
       type: string
       description: name of the app-sre component name
       default: ""
-    - name: IQE_PLUGINS
-      type: string
-      description: name of the IQE plugin for this app.
   steps:
     - name: deploy-iqe-cji
       image: "$(params.BONFIRE_IMAGE)"
@@ -45,8 +42,6 @@ spec:
           value: $(params.COMPONENT_NAME)
         - name: BONFIRE_COMPONENT_NAME
           value: $(params.BONFIRE_COMPONENT_NAME)
-        - name: IQE_PLUGINS
-          value: $(params.IQE_PLUGINS)
         - name: BONFIRE_BOT
           value: "true"
       script: |
