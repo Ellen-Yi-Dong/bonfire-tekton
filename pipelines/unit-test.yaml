@@ -63,6 +63,7 @@ spec:
       description: name of app-sre "resourceTemplate" in deploy.yaml for this component
     - name: PATH_UNIT_TEST
       type: string
+      default: https://github.com/Ellen-Yi-Dong/uhc-auth-proxy/blob/docker_unit_tests/konflux_pr_check.sh
       description: url path to the unit test
 
   results:
