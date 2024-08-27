@@ -17,9 +17,6 @@ spec:
     - name: NS_REQUESTER
       type: string
       description: The name of the person/pipeline that requested the namespace
-    - name: COMPONENT_NAME
-      type: string
-      description: name of app-sre "resourceTemplate" in deploy.yaml for this component
     - name: BONFIRE_COMPONENT_NAME
       type: string
       description: name of the app-sre component name
@@ -38,8 +35,6 @@ spec:
             secretKeyRef:
               name: $(params.EPHEMERAL_ENV_PROVIDER_SECRET)
               key: url
-        - name: COMPONENT_NAME
-          value: $(params.COMPONENT_NAME)
         - name: BONFIRE_COMPONENT_NAME
           value: $(params.BONFIRE_COMPONENT_NAME)
         - name: BONFIRE_BOT
