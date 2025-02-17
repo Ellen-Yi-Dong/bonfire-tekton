@@ -139,6 +139,8 @@ spec:
 
         echo "Connecting to the ephemeral namespace cluster"
         login.sh
-
+        
+        printenv 
+        
         echo "Deploying the IQE CJI test"
         deploy-iqe-cji.sh "$(params.NS)" "$(params.NS_REQUESTER)"
